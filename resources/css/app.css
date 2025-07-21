@@ -125,4 +125,5 @@
     .focus-visible\:ring-ring:focus-visible {
         --tw-ring-color: hsl(var(--ring));
     }
+    [x-cloak] { display: none !important; }
   }

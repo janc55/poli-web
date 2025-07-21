@@ -1,0 +1,35 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
+class Patient extends Model
+{
+    protected $fillable = [
+        'first_name',
+        'last_name',
+        'ci',
+        'phone',
+        'email',
+        'address',
+        'birth_date',
+        'gender',
+    ];
+
+    protected $casts = [
+        'birth_date' => 'date',
+    ];
+
+    // Relaciones
+    public function appointments(): HasMany
+    {
+        return $this->hasMany(Appointment::class);
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+}
