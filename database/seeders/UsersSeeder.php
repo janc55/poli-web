@@ -61,6 +61,8 @@ class UsersSeeder extends Seeder
         Patient::firstOrCreate(
             ['user_id' => $patientUser->id],
             [
+                'first_name' => 'Paciente',
+                'last_name'  => 'Demo',
                 'ci'         => '1234567',
                 'birth_date' => '1990-01-01',
                 'gender'     => 'M',

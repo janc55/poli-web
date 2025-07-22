@@ -8,14 +8,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Patient extends Model
 {
     protected $fillable = [
+        'user_id',
         'first_name',
         'last_name',
         'ci',
-        'phone',
-        'email',
-        'address',
         'birth_date',
         'gender',
+        'address',
+        'phone', 
     ];
 
     protected $casts = [

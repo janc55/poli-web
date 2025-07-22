@@ -22,11 +22,17 @@ class PermissionResource extends Resource
 
     protected static ?string $navigationGroup = 'Administración';
 
+    protected static ?string $navigationLabel = 'Permisos';
+
+    protected static ?string $pluralModelLabel = 'Permisos';
+    
+    protected static ?string $modelLabel = 'Permisos';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make('name')->required(),
+                TextInput::make('name')->label('Nombre')->required(),
             ]);
     }
 
@@ -34,7 +40,7 @@ class PermissionResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->searchable(),
+                Tables\Columns\TextColumn::make('name')->label('Nombre')->searchable(),
             ])
             ->filters([
                 //

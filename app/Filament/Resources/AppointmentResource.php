@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\AppointmentResource\Pages;
 use App\Filament\Resources\AppointmentResource\RelationManagers;
 use App\Models\Appointment;
+use App\Models\Patient;
 use Filament\Forms;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
@@ -15,7 +16,9 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Carbon;
 
 class AppointmentResource extends Resource
 {
@@ -26,21 +29,34 @@ class AppointmentResource extends Resource
     protected static ?string $pluralModelLabel = 'Citas';
     protected static ?string $modelLabel = 'Cita';
 
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::where('status', 'confirmed')
+            ->whereDate('scheduled_at', Carbon::today())
+            ->count();
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Select::make('patient_id')
                     ->label('Paciente')
-                    ->relationship('patient', 'ci') // o fullName() si lo agregas como accessor
-                    ->searchable()
-                    ->required(),
-
-                Select::make('user_id')
-                    ->label('Registrado por')
-                    ->relationship('user', 'name')
-                    ->searchable()
-                    ->required(),
+                    ->relationship(
+                        name: 'patient',
+                        titleAttribute: 'ci',
+                        modifyQueryUsing: fn (Builder $query) => $query->select(['id', 'ci', 'first_name', 'last_name'])
+                    )
+                    ->searchable(['first_name', 'last_name', 'ci'])
+                    ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->first_name} {$record->last_name}")
+                    ->required()
+                    ->preload()
+                    ->searchDebounce(500) // Reduce las consultas durante la escritura
+                    ->native(false) // Mejor rendimiento en el cliente
+                    ->optionsLimit(100) // Limita el número de opciones cargadas inicialmente
+                    ->loadingMessage('Buscando pacientes...')
+                    ->noSearchResultsMessage('No se encontraron pacientes')
+                    ->searchPrompt('Buscar por nombre, apellido o CI'),
 
                 Select::make('service')
                     ->label('Servicio')
@@ -79,10 +95,16 @@ class AppointmentResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('fullName')->label('Paciente')->searchable(),
+                TextColumn::make('patient.fullName')->label('Paciente')->searchable(),
                 TextColumn::make('service')->label('Servicio'),
                 TextColumn::make('scheduled_at')->label('Fecha')->dateTime(),
-                TextColumn::make('status')->label('Estado')->badge(),
+                TextColumn::make('status')->label('Estado')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'pending' => 'gray',
+                        'confirmed' => 'success',
+                        'cancelled' => 'danger',
+                    })
             ])
             ->defaultSort('scheduled_at', 'desc')
             ->filters([

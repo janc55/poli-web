@@ -23,12 +23,21 @@ class RoleResource extends Resource
 
     protected static ?string $navigationGroup = 'Administración';
 
+    protected static ?string $navigationLabel = 'Roles';
+
+    protected static ?string $pluralModelLabel = 'Roles';
+    
+    protected static ?string $modelLabel = 'Rol';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make('name')->required(),
+                TextInput::make('name')
+                    ->label('Nombre')    
+                    ->required(),
                 Select::make('permissions')
+                    ->label('Permisos')
                     ->multiple()
                     ->relationship('permissions', 'name')
                     ->preload()
@@ -40,7 +49,7 @@ class RoleResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->searchable(),
+                Tables\Columns\TextColumn::make('name')->label('Nombre')->searchable(),
                 Tables\Columns\TextColumn::make('permissions.name')->label('Permisos')->badge(),
             ])
             ->filters([

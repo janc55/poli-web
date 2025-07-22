@@ -52,7 +52,7 @@ class PatientResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name')->label('Nombre')->searchable(),
+                TextColumn::make('fullName')->label('Paciente')->searchable(['first_name', 'last_name']),
                 TextColumn::make('ci')->label('CI')->sortable(),
                 TextColumn::make('phone')->label('Teléfono'),
                 TextColumn::make('gender')->label('Género'),
