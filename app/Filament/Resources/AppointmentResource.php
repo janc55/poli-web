@@ -6,6 +6,7 @@ use App\Filament\Resources\AppointmentResource\Pages;
 use App\Filament\Resources\AppointmentResource\RelationManagers;
 use App\Models\Appointment;
 use App\Models\Patient;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
@@ -19,6 +20,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class AppointmentResource extends Resource
 {
@@ -35,6 +37,8 @@ class AppointmentResource extends Resource
             ->whereDate('scheduled_at', Carbon::today())
             ->count();
     }
+
+    
 
     public static function form(Form $form): Form
     {
@@ -56,7 +60,8 @@ class AppointmentResource extends Resource
                     ->optionsLimit(100) // Limita el número de opciones cargadas inicialmente
                     ->loadingMessage('Buscando pacientes...')
                     ->noSearchResultsMessage('No se encontraron pacientes')
-                    ->searchPrompt('Buscar por nombre, apellido o CI'),
+                    ->searchPrompt('Buscar por nombre, apellido o CI')
+                    ->hidden(fn () => auth()->user()->hasRole('paciente')),
 
                 Select::make('service')
                     ->label('Servicio')
@@ -84,7 +89,8 @@ class AppointmentResource extends Resource
                         'cancelled' => 'Cancelada',
                     ])
                     ->default('pendiente')
-                    ->required(),
+                    ->required()
+                    ->hidden(fn () => auth()->user()->hasRole('paciente')),
 
                 Textarea::make('notes')
                     ->label('Notas'),

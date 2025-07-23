@@ -22,7 +22,7 @@ class CreatePatient extends CreateRecord
         ]);
 
         // Asignamos el rol usando Spatie Permission
-        $user->assignRole('patient');
+        $user->assignRole('paciente');
 
         // Agregamos el user_id al array de datos del paciente
         $data['user_id'] = $user->id;

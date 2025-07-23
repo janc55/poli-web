@@ -13,6 +13,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class MedicalRecordResource extends Resource
 {
@@ -21,6 +22,24 @@ class MedicalRecordResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected static ?string $navigationLabel = 'Historiales Clínicos';
     protected static ?string $modelLabel = 'Historial Clínico';
+
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery()->with(['patient', 'doctor']);
+        
+        $user = Auth::user();
+        
+        // Usando permisos en lugar de roles directamente
+        if ($user->can('ver historiales asignados') && !$user->can('ver todos los historiales')) {
+            return $query->where('doctor_id', $user->id);
+        }
+        
+        if ($user->patient && $user->can('ver propias historiales')) {
+            return $query->where('patient_id', $user->patient->id);
+        }
+        
+        return $query;
+    }
 
     public static function form(Form $form): Form
     {

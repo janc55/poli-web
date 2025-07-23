@@ -14,8 +14,9 @@ class UsersSeeder extends Seeder
     {
         // Roles (debieron existir por RolesAndPermissionsSeeder; aseguramos con firstOrCreate)
         $adminRole   = Role::firstOrCreate(['name' => 'admin']);
-        $staffRole   = Role::firstOrCreate(['name' => 'staff']);
-        $patientRole = Role::firstOrCreate(['name' => 'patient']);
+        $doctorRole   = Role::firstOrCreate(['name' => 'doctor']);
+        $staffRole   = Role::firstOrCreate(['name' => 'recepcionista']);
+        $patientRole = Role::firstOrCreate(['name' => 'paciente']);
 
         // --- Admin ---
         $admin = User::firstOrCreate(
@@ -45,7 +46,7 @@ class UsersSeeder extends Seeder
                 'password' => Hash::make('password'),
             ]
         );
-        $doctor->assignRole($staffRole); // o crear role 'doctor' más adelante
+        $doctor->assignRole($doctorRole); // o crear role 'doctor' más adelante
 
         // --- Paciente con cuenta ---
         $patientUser = User::firstOrCreate(
@@ -65,7 +66,7 @@ class UsersSeeder extends Seeder
                 'last_name'  => 'Demo',
                 'ci'         => '1234567',
                 'birth_date' => '1990-01-01',
-                'gender'     => 'M',
+                'gender'     => 'Masculino',
                 'address'    => 'Dirección demo',
                 'phone'      => '70000000',
             ]
