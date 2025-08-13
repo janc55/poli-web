@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Doctor;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
@@ -39,14 +40,32 @@ class UsersSeeder extends Seeder
         $staff->assignRole($staffRole);
 
         // --- Médico / Staff clínico ---
-        $doctor = User::firstOrCreate(
-            ['email' => 'medico@unior.test'],
+        $doctorUser = User::firstOrCreate(
+            ['email' => 'doctor@unior.test'],
             [
-                'name' => 'Dr. Demo UNIOR',
+                'name' => 'Dr. Ana María Gómez',
                 'password' => Hash::make('password'),
             ]
         );
-        $doctor->assignRole($doctorRole); // o crear role 'doctor' más adelante
+        $doctorUser->assignRole($doctorRole); // o crear role 'doctor' más adelante
+
+        Doctor::firstOrCreate(
+            ['user_id' => $doctorUser->id],
+            [
+                'first_name'     => 'Ana María',
+                'last_name'      => 'Gómez',
+                'ci'             => '7654321',
+                'ci_extension'   => 'LP',
+                'birth_date'     => '1985-05-15',
+                'gender'         => 'Femenino',
+                'address'        => 'Calle Principal 123',
+                'phone'          => '71111111',
+                'license_number' => 'MED-0012345',
+                'bio'            => 'Especialista en cardiología con 10 años de experiencia.',
+            ]
+        );
+
+        
 
         // --- Paciente con cuenta ---
         $patientUser = User::firstOrCreate(

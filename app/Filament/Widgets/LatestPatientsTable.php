@@ -12,6 +12,8 @@ class LatestPatientsTable extends BaseWidget
 {
     protected static ?string $heading = 'Pacientes Recientes';
 
+    protected static ?int $sort = 2;
+
     public static function canView(): bool
     {
         return Auth::user()?->hasRole('admin');

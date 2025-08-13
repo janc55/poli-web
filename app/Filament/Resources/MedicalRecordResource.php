@@ -20,6 +20,7 @@ class MedicalRecordResource extends Resource
     protected static ?string $model = MedicalRecord::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationGroup = 'Gestión Médica';
     protected static ?string $navigationLabel = 'Historiales Clínicos';
     protected static ?string $modelLabel = 'Historial Clínico';
 

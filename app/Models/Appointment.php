@@ -13,7 +13,7 @@ class Appointment extends Model
         'scheduled_at',
         'status',
         'notes',
-        'service',
+        'service_id',
     ];
 
     protected $casts = [
@@ -29,5 +29,15 @@ class Appointment extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class); // Quien registró la cita
+    }
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class);
+    }
+
+    public function doctor(): BelongsTo
+    {
+        return $this->belongsTo(Doctor::class);
     }
 }

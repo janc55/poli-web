@@ -23,6 +23,7 @@ class PatientResource extends Resource
     protected static ?string $model = Patient::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
+    protected static ?string $navigationGroup = 'Pacientes';
     protected static ?string $navigationLabel = 'Pacientes';
     protected static ?string $pluralModelLabel = 'Pacientes';
     protected static ?string $modelLabel = 'Paciente';
@@ -34,6 +35,7 @@ class PatientResource extends Resource
                 TextInput::make('first_name')->label('Nombre')->required(),
                 TextInput::make('last_name')->label('Apellidos')->required(),
                 TextInput::make('ci')->label('CI')->required(),
+                TextInput::make('ci_extension')->label('Extensión del CI'),
                 TextInput::make('phone')->label('Teléfono'),
                 TextInput::make('email')->label('Email')->email(),
                 TextInput::make('address')->label('Dirección'),

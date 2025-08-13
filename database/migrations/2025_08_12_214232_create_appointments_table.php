@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('patient_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('service'); // ejemplo: “Ginecología”
+            $table->foreignId('doctor_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('service_id')->constrained()->onDelete('cascade'); // ejemplo: “Ginecología”
             $table->timestamp('scheduled_at'); // fecha y hora solicitada
             $table->enum('status', ['pending', 'confirmed', 'cancelled'])->default('pending');
             $table->text('notes')->nullable();
