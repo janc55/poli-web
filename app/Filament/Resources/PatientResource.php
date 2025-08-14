@@ -16,6 +16,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PatientResource extends Resource
@@ -74,7 +75,10 @@ class PatientResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->recordUrl(
+                fn (Model $record): string => route('filament.admin.resources.patients.view', ['record' => $record]),
+            );
     }
 
     public static function getRelations(): array
@@ -89,6 +93,7 @@ class PatientResource extends Resource
         return [
             'index' => Pages\ListPatients::route('/'),
             'create' => Pages\CreatePatient::route('/create'),
+            'view' => Pages\ViewPatient::route('/{record}'), // Agrega esta ruta
             'edit' => Pages\EditPatient::route('/{record}/edit'),
         ];
     }
