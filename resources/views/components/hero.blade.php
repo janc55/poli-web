@@ -33,7 +33,7 @@
                 </div>
                 <h1 class="text-4xl lg:text-6xl font-bold text-gray-800 mb-6">
                     INNOVACIÓN EN
-                    <span class="text-red-600 block">SALUD, EDUCACIÓN</span>
+                    <span class="text-red-600 block">SALUD</span>
                     <span class="text-red-600">Y SERVICIO</span>
                 </h1>
                 <p class="text-xl text-gray-600 mb-8">

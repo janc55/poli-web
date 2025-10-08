@@ -15,23 +15,23 @@
                     'icon' => 'baby',
                     'title' => 'PEDIATRÍA',
                     'description' => 'Cuidado médico especializado para niños y adolescentes',
-                    'features' => ['Consultas especializadas', 'Seguimiento del crecimiento', 'Vacunación', 'Emergencias pediátricas'],
+                    'features' => ['Consultas especializadas', 'Seguimiento del crecimiento', 'Control de esquemas vacunatorios', 'Control de niño sano'],
                 ],
                 [
-                    'icon' => 'heart',
-                    'title' => 'GINECOLOGÍA',
+                    'icon' => 'cable',
+                    'title' => 'GINECOLOGÍA OBSTÉTRICA',
                     'description' => 'Salud femenina y acompañamiento durante el embarazo',
-                    'features' => ['Control prenatal', 'Planificación familiar', 'Citología', 'Ecografía obstétrica'],
+                    'features' => ['Control prenatal', 'Planificación familiar', 'Citología', 'Salud Reproductiva'],
                 ],
                 [
-                    'icon' => 'activity',
+                    'icon' => 'shield-plus',
                     'title' => 'MEDICINA INTERNA',
                     'description' => 'Diagnóstico y tratamiento integral de enfermedades en adultos',
-                    'features' => ['Diagnóstico integral', 'Tratamiento especializado', 'Seguimiento médico', 'Medicina preventiva'],
+                    'features' => ['Diagnóstico integral', 'Tratamiento especializado', 'Seguimiento médico', 'Medicina familiar'],
                 ],
                 [
                     'icon' => 'stethoscope',
-                    'title' => 'MEDICINA GENERAL',
+                    'title' => 'MEDICINA PREVENTIVA',
                     'description' => 'Atención médica básica y orientación para toda la familia',
                     'features' => ['Consulta general', 'Medicina familiar', 'Orientación médica', 'Atención primaria'],
                 ],
@@ -63,20 +63,31 @@
             @php
                 $labServices = [
                     'Hematología', 'Química sanguínea', 'Uroanálisis', 'Diagnóstico de embarazo',
-                    'Coprología', 'Inmunología', 'Pruebas COVID', 'Función endocrina',
+                    'Coprología', 'Inmunología', 'Pruebas COVID', 'Función endocrina', 'Pruebas de Paternidad',
                 ];
 
                 $ultrasoundServices = [
                     'Abdomen', 'Renal', 'Obstétrica', 'Vesico prostático',
                     'Partes blandas', 'Transvaginal', 'Doppler',
                 ];
+
+                // Servicios de imagenología adicionales
+                $tomographyServices = [
+                    'Abdomen', 'Pelvis', 'Cerebro', 'Cara y Base de Cráneo',
+                    'Columna', 'Cuello', 'Tórax', 'Estudios con y sin contraste',
+                ];
+                $xrayServices = [
+                    'Abdomen', 'Radiología Ósea', 'Cráneo y Cara',
+                    'Columna', 'Extremidades Superiores', 'Extremidades Inferiores', 'Tórax',
+                ];
+
             @endphp
 
             {{-- Laboratorio Clínico --}}
             <div class="bg-white rounded-xl border border-gray-200 transition-all duration-300 hover:shadow-md hover:-translate-y-2">
                 <div class="px-6 py-4 border-b border-gray-200">
                     <h3 class="text-red-600 flex items-center text-lg font-bold">
-                        <x-lucide-activity class="w-6 h-6 mr-2" />
+                        <x-lucide-flask-conical class="w-6 h-6 mr-2" />
                         LABORATORIO CLÍNICO
                     </h3>
                 </div>
@@ -103,6 +114,45 @@
                 <div class="px-6 py-4">
                     <div class="grid grid-cols-2 gap-2 text-sm text-gray-800">
                         @foreach ($ultrasoundServices as $item)
+                            <div class="flex items-center">
+                                <div class="w-2 h-2 bg-red-600 rounded-full mr-2"></div>
+                                {{ $item }}
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+
+            {{-- Tomografia --}}
+            <div class="bg-white rounded-xl border border-gray-200 transition-all duration-300 hover:shadow-md hover:-translate-y-2">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <h3 class="text-red-600 flex items-center text-lg font-bold">
+                        <x-lucide-atom class="w-6 h-6 mr-2" />
+                        TOMOGRAFÍA
+                    </h3>
+                </div>
+                <div class="px-6 py-4">
+                    <div class="grid grid-cols-2 gap-2 text-sm text-gray-800">
+                        @foreach ($tomographyServices as $item)
+                            <div class="flex items-center">
+                                <div class="w-2 h-2 bg-red-600 rounded-full mr-2"></div>
+                                {{ $item }}
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+            {{-- Rayos X --}}
+            <div class="bg-white rounded-xl border border-gray-200 transition-all duration-300 hover:shadow-md hover:-translate-y-2">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <h3 class="text-red-600 flex items-center text-lg font-bold">
+                        <x-lucide-bone class="w-6 h-6 mr-2" />
+                        RAYOS X
+                    </h3>
+                </div>
+                <div class="px-6 py-4">
+                    <div class="grid grid-cols-2 gap-2 text-sm text-gray-800">
+                        @foreach ($xrayServices as $item)
                             <div class="flex items-center">
                                 <div class="w-2 h-2 bg-red-600 rounded-full mr-2"></div>
                                 {{ $item }}

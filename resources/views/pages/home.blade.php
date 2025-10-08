@@ -4,7 +4,7 @@
 
     <x-services/>
 
-    <x-promotions/>
+    <x-promotions :promotions="$promotions"/>
 
     <x-contact/>
 

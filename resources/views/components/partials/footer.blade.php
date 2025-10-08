@@ -9,7 +9,7 @@
                     </div>
                 </div>
                 <p class="text-gray-400">
-                    Innovación en salud, educación y servicio. Tu bienestar es nuestra prioridad.
+                    Innovación en salud y servicio. Tu bienestar es nuestra prioridad.
                 </p>
             </div>
 
@@ -22,6 +22,8 @@
                     <li>Medicina General</li>
                     <li>Laboratorio Clínico</li>
                     <li>Ecografía</li>
+                    <li>Tomografía</li>
+                    <li>Rayos X</li>
                 </ul>
             </div>
 
@@ -29,7 +31,7 @@
                 <h4 class="font-semibold mb-4">Contacto</h4>
                 <div class="space-y-2 text-gray-400">
                     <p>📞 252-81110</p>
-                    <p>✉️ policonsultoriunior@gmail.com</p>
+                    <p> <a href="mailto:policonsultoriunior@gmail.com">✉️ policonsultoriunior@gmail.com</a></p>
                     <p>📍 Calle Potosí entre Bolívar y Sucre</p>
                     <p>🕒 Lunes a Viernes: 8:00 a 19:00</p>
                 </div>
@@ -37,7 +39,7 @@
         </div>
 
         <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; {{ now()->year }} Policonsultorio UNIOR. Todos los derechos reservados.</p>
+            <p>&copy; {{ now()->year }} NettiDev. Todos los derechos reservados.</p>
         </div>
     </div>
 </footer>

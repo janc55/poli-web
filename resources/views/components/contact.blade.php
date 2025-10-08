@@ -101,6 +101,6 @@ document.getElementById('whatsappForm').addEventListener('submit', function(e) {
     const mensaje = `Hola, mi nombre es ${nombre} (Tel: ${telefono}). Estoy interesado en el servicio de ${servicio}. Por favor contáctenme.`;
     const mensajeCodificado = encodeURIComponent(mensaje);
     
-    window.open(`https://api.whatsapp.com/send?phone=59171765077&text=${mensajeCodificado}`, '_blank');
+    window.open(`https://api.whatsapp.com/send?phone=59168310227&text=${mensajeCodificado}`, '_blank');
 });
 </script>
