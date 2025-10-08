@@ -80,7 +80,7 @@
                     />
 
                     {{-- Capa oscura translúcida para mejor contraste --}}
-                    <div class="absolute inset-0 bg-black/20 z-0"></div>
+                    <div class="absolute inset-0 bg-black/10 z-0"></div>
 
                     {{-- Contenido visible sobre la imagen --}}
                     <div class="relative z-10 p-8 h-full flex flex-col justify-center">
@@ -97,7 +97,7 @@
                         </div>
 
                         {{-- Tarjeta de servicios --}}
-                        <div class="bg-red-600/95 rounded-2xl p-6 text-white backdrop-blur-sm border border-red-700/20 transition-all duration-500 group-hover:shadow-xl group-hover:scale-[1.02]">
+                        <div class="bg-red-600/95 rounded-2xl p-6 text-white transition-all duration-500 group-hover:shadow-xl group-hover:scale-[1.02]">
                             <div class="flex items-center mb-4">
                                 <x-lucide-activity class="w-6 h-6 mr-3" />
                                 <h3 class="text-xl font-bold">Servicios Disponibles</h3>
