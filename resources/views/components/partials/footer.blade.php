@@ -3,7 +3,7 @@
         <div class="grid md:grid-cols-3 gap-8">
             <div>
                 <div class="flex items-center space-x-3 mb-4">
-                    <img src="{{ asset('images/logo-symbol.png') }}" alt="Policonsultorio UNIOR" class="h-10 w-10">
+                    <img src="{{ asset('images/logo-symbol.png') }}" alt="Policonsultorio UNIOR" class="h-10 w-10 hover:animate-impulse-rotation-left">
                     <div>
                         <h3 class="font-bold text-white">POLICONSULTORIO UNIOR</h3>
                     </div>

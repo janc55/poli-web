@@ -7,24 +7,24 @@
                 Ofrecemos atención médica integral con profesionales especializados y tecnología de última generación
             </p>
         </div>
-
+        
         {{-- Servicios generales en grid --}}
         @php
             $services = [
                 [
-                    'icon' => 'baby',
+                    'icon' => 'pediatrics',
                     'title' => 'PEDIATRÍA',
                     'description' => 'Cuidado médico especializado para niños y adolescentes',
                     'features' => ['Consultas especializadas', 'Seguimiento del crecimiento', 'Control de esquemas vacunatorios', 'Control de niño sano'],
                 ],
                 [
-                    'icon' => 'cable',
+                    'icon' => 'uterus',
                     'title' => 'GINECOLOGÍA OBSTÉTRICA',
                     'description' => 'Salud femenina y acompañamiento durante el embarazo',
                     'features' => ['Control prenatal', 'Planificación familiar', 'Citología', 'Salud Reproductiva'],
                 ],
                 [
-                    'icon' => 'shield-plus',
+                    'icon' => 'shield-virus',
                     'title' => 'MEDICINA INTERNA',
                     'description' => 'Diagnóstico y tratamiento integral de enfermedades en adultos',
                     'features' => ['Diagnóstico integral', 'Tratamiento especializado', 'Seguimiento médico', 'Medicina familiar'],
@@ -41,8 +41,8 @@
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
             @foreach ($services as $service)
             <div class="bg-white rounded-xl border border-gray-200 p-6 text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-2">
-                    <div class="mx-auto mb-4 p-3 bg-red-50 rounded-full w-fit">
-                        <x-dynamic-component :component="'lucide-' . $service['icon']" class="w-8 h-8 text-red-600" />
+                    <div class="mx-auto mb-4 p-3 bg-red-50 rounded-full w-16 h-16 text-red-600">
+                        <x-dynamic-component :component="'healthicons.' . $service['icon']" />
                     </div>
                     <h3 class="text-red-600 text-lg font-bold mb-2">{{ $service['title'] }}</h3>
                     <p class="text-sm text-gray-600 mb-4">{{ $service['description'] }}</p>
@@ -87,7 +87,9 @@
             <div class="bg-white rounded-xl border border-gray-200 transition-all duration-300 hover:shadow-md hover:-translate-y-2">
                 <div class="px-6 py-4 border-b border-gray-200">
                     <h3 class="text-red-600 flex items-center text-lg font-bold">
-                        <x-lucide-flask-conical class="w-6 h-6 mr-2" />
+                        <div class="w-8 h-8 mr-2">
+                            <x-healthicons.lab />
+                        </div>
                         LABORATORIO CLÍNICO
                     </h3>
                 </div>
@@ -107,7 +109,9 @@
             <div class="bg-white rounded-xl border border-gray-200 transition-all duration-300 hover:shadow-md hover:-translate-y-2">
                 <div class="px-6 py-4 border-b border-gray-200">
                     <h3 class="text-red-600 flex items-center text-lg font-bold">
-                        <x-lucide-heart class="w-6 h-6 mr-2" />
+                        <div class="w-8 h-8 mr-2">
+                            <x-healthicons.ultrasound />
+                        </div>
                         ECOGRAFÍA
                     </h3>
                 </div>
@@ -127,7 +131,9 @@
             <div class="bg-white rounded-xl border border-gray-200 transition-all duration-300 hover:shadow-md hover:-translate-y-2">
                 <div class="px-6 py-4 border-b border-gray-200">
                     <h3 class="text-red-600 flex items-center text-lg font-bold">
-                        <x-lucide-atom class="w-6 h-6 mr-2" />
+                        <div class="w-8 h-8 mr-2">
+                            <x-healthicons.tomo />
+                        </div>
                         TOMOGRAFÍA
                     </h3>
                 </div>
@@ -146,7 +152,9 @@
             <div class="bg-white rounded-xl border border-gray-200 transition-all duration-300 hover:shadow-md hover:-translate-y-2">
                 <div class="px-6 py-4 border-b border-gray-200">
                     <h3 class="text-red-600 flex items-center text-lg font-bold">
-                        <x-lucide-bone class="w-6 h-6 mr-2" />
+                        <div class="w-8 h-8 mr-2">
+                            <x-healthicons.ray-x />
+                        </div>
                         RAYOS X
                     </h3>
                 </div>
