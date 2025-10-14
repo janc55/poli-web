@@ -12,6 +12,7 @@
             <nav class="hidden md:flex items-center space-x-8">
                 <a href="/" class="hover:text-red-600">Inicio</a>
                 <a href="/#servicios" class="hover:text-red-600">Servicios</a>
+                <a href="/noticias" class="hover:text-red-600">Noticias</a>
                 <a href="/#contacto" class="hover:text-red-600">Contacto</a>
                 <a href="/admin/login" class="ml-4 px-4 py-2 text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50 transition duration-150 ease-in-out">
                     Iniciar sesión
@@ -31,6 +32,7 @@
         <nav x-show="open" x-transition class="md:hidden mt-4 space-y-2">
             <a href="/" class="block px-4 py-2 text-gray-800 hover:bg-red-50 rounded">Inicio</a>
             <a href="/#servicios" class="block px-4 py-2 text-gray-800 hover:bg-red-50 rounded">Servicios</a>
+            <a href="/noticias" class="block px-4 py-2 text-gray-800 hover:bg-red-50 rounded">Noticias</a>
             <a href="/#contacto" class="block px-4 py-2 text-gray-800 hover:bg-red-50 rounded">Contacto</a>
             <a href="/admin/login" class="block px-4 py-2 mt-2 text-gray-800 border border-gray-300 rounded hover:bg-gray-50">
                 Iniciar sesión

@@ -6,6 +6,8 @@
 
     <x-promotions :promotions="$promotions"/>
 
+    <livewire:news-section />
+
     <x-contact/>
 
     <!-- Más secciones aquí -->

@@ -39,4 +39,9 @@ class Doctor extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function getFullNameAttribute()
+    {
+        return trim($this->first_name . ' ' . $this->last_name);
+    }
+
 }

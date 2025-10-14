@@ -7,6 +7,8 @@ use App\Filament\Resources\DoctorScheduleResource\RelationManagers;
 use App\Models\DoctorSchedule;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -28,7 +30,7 @@ class DoctorScheduleResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('doctor_id')
+                Select::make('doctor_id')
                     ->label('Doctor')
                     ->relationship('doctor', 'first_name')
                     ->required()
@@ -55,7 +57,7 @@ class DoctorScheduleResource extends Resource
                     ->preload()
                     ->helperText('Selecciona un servicio que el doctor pueda atender.'), // Texto de ayuda para el usuario
                 
-                Forms\Components\Select::make('day_of_week')
+                Select::make('day_of_week')
                     ->label('Día de la semana')
                     ->options([
                         'lunes' => 'Lunes',
@@ -69,15 +71,15 @@ class DoctorScheduleResource extends Resource
                     ->multiple()
                     ->required(),
                 
-                Forms\Components\TimePicker::make('start_time')
+                TimePicker::make('start_time')
                     ->label('Hora de inicio')
                     ->required(),
                 
-                Forms\Components\TimePicker::make('end_time')
+                TimePicker::make('end_time')
                     ->label('Hora de finalización')
                     ->required(),
 
-                Forms\Components\TextInput::make('appointment_duration')
+                TextInput::make('appointment_duration')
                     ->label('Duración de la cita (minutos)')
                     ->numeric()
                     ->required()
@@ -115,6 +117,9 @@ class DoctorScheduleResource extends Resource
                     ->label('Duración')
                     ->sortable(),
             ])
+            ->groups([
+            'doctor.first_name',
+        ])
             ->filters([
                 //
             ])
