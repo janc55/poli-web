@@ -5,7 +5,7 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Buscar Médico</label>
                 <input type="text" wire:model.live="search" placeholder="Ej: Dr. Rivera Nogales" 
-                       class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500">
+                    class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500">
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Especialidad</label>
@@ -19,7 +19,7 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Fecha</label>
                 <input type="date" wire:model.live="selectedDate" min="{{ now()->format('Y-m-d') }}" 
-                       class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500">
+                    class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500">
             </div>
         </div>
     </div>
@@ -30,7 +30,7 @@
             <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-4">
                 <div class="flex items-center space-x-4">
                     <img src="{{ $doctor->avatar ?? asset('images/default-doctor-avatar.png') }}" alt="{{ $doctor->name }}" 
-                         class="w-16 h-16 rounded-full object-cover">
+                        class="w-16 h-16 rounded-full object-cover">
                     <div>
                         <h3 class="text-xl font-bold text-gray-800">{{ $doctor->fullName }}</h3>
                         <p class="text-red-600">{{ $doctor->services->pluck('name')->implode(', ') }}</p>
@@ -74,17 +74,21 @@
                 <div class="border-l border-gray-200 pl-4 md:pl-6">
                     <h4 class="font-semibold text-gray-700 mb-2">Horario de Atención</h4>
                     @php
-                        $availableDays = $doctor->schedules->pluck('day_of_week')->unique()->sort();  // Días únicos y ordenados
+                        // 👈 Cambio clave: flatMap para aplanar arrays y obtener días únicos como strings
+                        $availableDays = $doctor->schedules->flatMap(fn($s) => $s->day_of_week ?? [])->unique()->sort();
                     @endphp
                     <ul class="text-sm text-gray-600 space-y-1">
                         @forelse($availableDays as $dia)
                             @php
-                                $generalSchedule = $doctor->schedules->where('day_of_week', $dia)->first();
+                                // 👈 Cambio clave: filter con in_array para encontrar schedule que contenga este $dia (string)
+                                $generalSchedule = $doctor->schedules->filter(fn($s) => in_array($dia, $s->day_of_week ?? []))->first();
                             @endphp
-                            <li class="flex items-center space-x-2">
-                                <x-lucide-clock class="w-4 h-4 mr-2 flex-shrink-0 text-gray-500" />
-                                {{ ucfirst($dia) }}: {{ $generalSchedule->start_time_formatted }} - {{ $generalSchedule->end_time_formatted }}
-                            </li>
+                            @if($generalSchedule)
+                                <li class="flex items-center space-x-2">
+                                    <x-lucide-clock class="w-4 h-4 mr-2 flex-shrink-0 text-gray-500" />
+                                    {{ ucfirst($dia) }}: {{ $generalSchedule->start_time_formatted }} - {{ $generalSchedule->end_time_formatted }}
+                                </li>
+                            @endif
                         @empty
                             <li class="text-gray-400 italic">No hay horarios disponibles.</li>
                         @endforelse

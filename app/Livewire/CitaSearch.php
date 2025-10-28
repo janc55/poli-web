@@ -56,7 +56,8 @@ class CitaSearch extends Component
                 return $q->whereRaw('CONCAT(first_name, " ", last_name) LIKE ?', ['%' . $this->search . '%']);
             })
             ->whereHas('schedules', function ($query) use ($dayOfWeek, $currentServiceId) {
-                $query->where('day_of_week', $dayOfWeek)
+                // 👈 Cambio clave: whereJsonContains para array JSON
+                $query->whereJsonContains('day_of_week', $dayOfWeek)
                       ->when($currentServiceId, function ($q) use ($currentServiceId) {
                           return $q->where('service_id', $currentServiceId);
                       });
@@ -64,7 +65,8 @@ class CitaSearch extends Component
             ->with([
                 'services',
                 'schedules' => function ($query) use ($dayOfWeek, $currentServiceId) {
-                    $query->where('day_of_week', $dayOfWeek)
+                    // 👈 Cambio clave: whereJsonContains aquí también
+                    $query->whereJsonContains('day_of_week', $dayOfWeek)
                           ->when($currentServiceId, function ($q) use ($currentServiceId) {
                               return $q->where('service_id', $currentServiceId);
                           });

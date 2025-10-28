@@ -6,7 +6,7 @@
   - **Backend**: PHP 8.2+, Laravel 12.0, Eloquent ORM
   - **Frontend**: Blade templates, Tailwind CSS 4.1, Alpine.js 3.x, Vite 6.2
   - **Panel Admin**: Filament 3.3
-  - **Base de Datos**: SQLite (por defecto), soporte para MySQL/PostgreSQL
+  - **Base de Datos**: MySQL
   - **Autenticación**: Laravel Sanctum + Spatie Laravel Permission 6.20
   - **Testing**: PHPUnit 11.5
 
@@ -22,7 +22,6 @@
 - **Componentes clave**: 
   - Panel administrativo Filament con recursos CRUD
   - Sistema de roles y permisos granular
-  - API RESTful para operaciones médicas
   - Frontend público con diseño responsive
 
 ## Base de Datos
@@ -146,3 +145,5 @@
 ---
 
 *Documento generado para continuar el desarrollo de módulos adicionales del proyecto Policonsultorio UNIOR*
+
+

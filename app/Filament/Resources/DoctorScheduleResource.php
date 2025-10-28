@@ -69,7 +69,8 @@ class DoctorScheduleResource extends Resource
                         'domingo' => 'Domingo',
                     ])
                     ->multiple()
-                    ->required(),
+                    ->required()
+                    ->helperText('Selecciona todos los días que aplica para este horario.'),
                 
                 TimePicker::make('start_time')
                     ->label('Hora de inicio')
@@ -91,7 +92,7 @@ class DoctorScheduleResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('doctor.first_name')
+                Tables\Columns\TextColumn::make('doctor.full_name')
                     ->label('Doctor')
                     ->searchable()
                     ->sortable(),
@@ -102,19 +103,22 @@ class DoctorScheduleResource extends Resource
                     ->sortable(),
                 
                 Tables\Columns\TextColumn::make('day_of_week')
-                    ->label('Día')
-                    ->sortable(),
+                    ->label('Días')
+                    ->badge()
+                    ->separator(', '),
                 
                 Tables\Columns\TextColumn::make('start_time')
                     ->label('Inicio')
+                    ->time('H:i')
                     ->sortable(),
                 
                 Tables\Columns\TextColumn::make('end_time')
                     ->label('Fin')
+                    ->time('H:i')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('appointment_duration')
-                    ->label('Duración')
+                    ->label('Duración (citas)')
                     ->sortable(),
             ])
             ->groups([

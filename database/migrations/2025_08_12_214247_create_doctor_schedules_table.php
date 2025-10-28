@@ -15,11 +15,14 @@ return new class extends Migration
             $table->id();
             $table->foreignId('doctor_id')->constrained()->onDelete('cascade');
             $table->foreignId('service_id')->constrained()->onDelete('cascade'); 
-            $table->enum('day_of_week', ['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo']);
+            $table->json('day_of_week');  // Cambiado: ahora JSON para array de días
             $table->time('start_time');
             $table->time('end_time');
             $table->integer('appointment_duration'); // en minutos
             $table->timestamps();
+
+            // Opcional: índice para queries JSON rápidas (ej. buscar por día específico)
+            $table->index(['doctor_id', 'service_id']);
         });
     }
 

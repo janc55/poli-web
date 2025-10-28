@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
 class DoctorSchedule extends Model
@@ -17,8 +19,9 @@ class DoctorSchedule extends Model
     ];
 
     protected $casts = [
-        'start_time' => 'datetime:H:i',
-        'end_time' => 'datetime:H:i',
+        'day_of_week' => 'array',
+        //'start_time' => 'datetime:H:i',
+        //'end_time' => 'datetime:H:i',
     ];
 
     public function doctor()
@@ -97,6 +100,12 @@ class DoctorSchedule extends Model
             // Log error si quieres: \Log::error('Error calculating slots: ' . $e->getMessage());
             return [];  // Siempre retorna array en caso de fallo
         }
+    }
+
+    // Opcional: scope para filtrar por día específico (ej. en queries de disponibilidad)
+    public function scopeForDay(Builder $query, string $day): void
+    {
+        $query->whereJsonContains('day_of_week', $day);
     }
 
 }

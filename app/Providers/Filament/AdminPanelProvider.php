@@ -32,7 +32,7 @@ class AdminPanelProvider extends PanelProvider
                 'primary' => Color::Red,
             ])
             ->brandLogo(asset('images/logo-symbol.png'))
-            ->brandLogoHeight('4rem')
+            ->brandLogoHeight('3rem')
             ->favicon(asset('images/logo-symbol.png'))
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
@@ -40,6 +40,13 @@ class AdminPanelProvider extends PanelProvider
                 Pages\Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+            ->navigationGroups([
+                'Gestión Médica',
+                'Pacientes',
+                'Servicios',
+                'CMS',
+                'Administración',
+            ])
             ->widgets([
                 
             ])
