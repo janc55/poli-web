@@ -25,12 +25,12 @@ class PatientPolicy
         // Doctores pueden ver pacientes asignados
         if ($user->hasRole('doctor')) {
             return $user->hasPermissionTo('ver pacientes asignados') && 
-                   $patient->doctor_id === $user->id;
+                $patient->doctor_id === $user->id;
         }
         
         // Pacientes solo pueden verse a sí mismos
         if ($user->hasRole('paciente')) {
-            return $user->patient->id === $patient->id;
+            return optional($user->patient)->id === $patient->id;
         }
         
         return $user->can('ver todos los pacientes');

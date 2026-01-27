@@ -12,6 +12,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -33,21 +34,98 @@ class PatientResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('first_name')->label('Nombre')->required(),
-                TextInput::make('last_name')->label('Apellidos')->required(),
-                TextInput::make('ci')->label('CI')->required(),
-                TextInput::make('ci_extension')->label('Extensión del CI'),
-                TextInput::make('phone')->label('Teléfono'),
-                TextInput::make('email')->label('Email')->email(),
-                TextInput::make('address')->label('Dirección'),
-                Select::make('gender')
-                    ->label('Género')
-                    ->options([
-                        'Masculino' => 'Masculino',
-                        'Femenino' => 'Femenino',
-                        'Otro' => 'Otro',
-                    ]),
-                DatePicker::make('birth_date')->label('Fecha de Nacimiento'),
+                // Sección de Información Personal
+                Forms\Components\Section::make('Información Personal')
+                    ->schema([
+                        Forms\Components\Grid::make(2)
+                            ->schema([
+                                Forms\Components\TextInput::make('first_name')
+                                    ->label('Nombres')
+                                    ->required()
+                                    ->placeholder('Ej: Juan')
+                                    ->columnSpan(1),
+                                Forms\Components\TextInput::make('last_name')
+                                    ->label('Apellidos')
+                                    ->required()
+                                    ->placeholder('Ej: Pérez')
+                                    ->columnSpan(1),
+                            ]),
+                        Forms\Components\Grid::make(3)
+                            ->schema([
+                                Forms\Components\TextInput::make('ci')
+                                    ->label('Cédula de Identidad')
+                                    ->required()
+                                    ->placeholder('Ej: 12345678')
+                                    ->columnSpan(2),
+                                Forms\Components\TextInput::make('ci_extension')
+                                    ->label('Extensión del CI')
+                                    ->nullable()
+                                    ->placeholder('Ej: La Paz')
+                                    ->columnSpan(1),
+                            ]),
+                        Forms\Components\Grid::make(2)
+                            ->schema([
+                                Forms\Components\DatePicker::make('birth_date')
+                                    ->label('Fecha de Nacimiento')
+                                    ->required()
+                                    ->placeholder('Seleccione una fecha')
+                                    ->displayFormat('d/m/Y')
+                                    ->minDate(now()->subYears(100))
+                                    ->maxDate(now())
+                                    ->columnSpan(1),
+                                Forms\Components\Select::make('gender')
+                                    ->label('Género')
+                                    ->options([
+                                        'masculino' => 'Masculino',
+                                        'femenino' => 'Femenino',
+                                        'otro' => 'Otro',
+                                    ])
+                                    ->default('masculino')
+                                    ->searchable()
+                                    ->columnSpan(1),
+                            ]),
+                        Forms\Components\FileUpload::make('avatar')
+                            ->label('Foto del Paciente')
+                            ->disk('public')
+                            ->directory('avatars/patients')
+                            ->avatar()
+                            ->image()
+                            ->imageEditor()
+                            ->maxSize(2048)
+                            ->columnSpanFull(),
+                    ])
+                    ->collapsible()
+                    ->columns(1),
+
+                // Sección de Información de Contacto
+                Forms\Components\Section::make('Información de Contacto')
+                    ->schema([
+                        Forms\Components\Grid::make(2)
+                            ->schema([
+                                Forms\Components\TextInput::make('phone')
+                                    ->label('Teléfono')
+                                    ->tel()
+                                    ->required()
+                                    ->mask('999-999-999')
+                                    ->placeholder('Ej: 777-123-456')
+                                    ->columnSpan(1),
+                                Forms\Components\TextInput::make('email')
+                                    ->label('Correo Electrónico')
+                                    ->email()
+                                    ->required()
+                                    ->visible(fn (string $operation): bool => $operation === 'create')
+                                    ->unique(ignoreRecord: true)
+                                    ->placeholder('Ej: paciente@ejemplo.com')
+                                    ->columnSpan(1),
+                            ]),
+                        Forms\Components\Textarea::make('address')
+                            ->label('Dirección')
+                            ->placeholder('Escribe la dirección completa')
+                            ->rows(3)
+                            ->columnSpanFull(),
+                    ])
+                    ->collapsible()
+                    ->columns(1),
             ]);
     }
 
@@ -55,6 +133,7 @@ class PatientResource extends Resource
     {
         return $table
             ->columns([
+                ImageColumn::make('avatar')->label('Foto')->circular(),
                 TextColumn::make('fullName')->label('Paciente')->searchable(['first_name', 'last_name']),
                 TextColumn::make('ci')->label('CI')->sortable(),
                 TextColumn::make('phone')->label('Teléfono'),

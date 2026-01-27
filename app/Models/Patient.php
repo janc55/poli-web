@@ -13,6 +13,7 @@ class Patient extends Model
         'last_name',
         'ci',
         'ci_extension',
+        'avatar',
         'birth_date',
         'gender',
         'address',

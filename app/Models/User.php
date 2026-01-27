@@ -36,13 +36,13 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    protected static function booted(): void
-    {
-        static::created(function ($user) {
-            // Asigna rol 'patient' por defecto al crear un usuario
-            $user->assignRole('paciente');
-        });
-    }
+    // protected static function booted(): void
+    // {
+    //     static::created(function ($user) {
+    //         // Asigna rol 'patient' por defecto al crear un usuario
+    //         $user->assignRole('paciente');
+    //     });
+    // }
 
     /**
      * Get the attributes that should be cast.

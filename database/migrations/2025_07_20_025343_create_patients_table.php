@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('ci')->nullable(); // Carnet de identidad
             $table->string('ci_extension')->nullable(); // Extensión del CI
+            $table->string('avatar')->nullable();
             $table->date('birth_date')->nullable();
             $table->string('gender')->nullable(); // M/F/Otro
             $table->text('address')->nullable();

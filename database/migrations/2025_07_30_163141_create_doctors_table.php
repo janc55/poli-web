@@ -23,7 +23,8 @@ return new class extends Migration
             $table->text('address')->nullable();
             $table->string('phone')->nullable();
             $table->string('license_number')->unique();
-            $table->text('bio')->nullable();            
+            $table->text('bio')->nullable();
+            $table->string('avatar')->nullable();            
             $table->timestamps();
         });
     }
