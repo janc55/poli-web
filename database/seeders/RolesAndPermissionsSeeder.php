@@ -12,65 +12,105 @@ class RolesAndPermissionsSeeder extends Seeder
     {
         // Reset cache de permisos
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
-        // --- Crear Permisos ---
-        // Permisos para Citas
-        $citasPermissions = [
-            'ver todas las citas',
-            'ver propias citas',
-            'crear citas',
-            'editar cualquier cita',
-            'editar propias citas',
-            'cancelar citas',
-            'eliminar citas',
-            'reasignar citas'
-        ];
 
-        // Permisos para Pacientes
-        $pacientesPermissions = [
-            'ver todos los pacientes',
-            'ver pacientes asignados',
-            'crear pacientes',
-            'editar pacientes',
-            'eliminar pacientes',
-            'exportar datos de pacientes'
-        ];
+        // ==================== PERMISOS POR MODELO ====================
+        $modelPermissions = [
+            // Modelo: Cita (Appointment)
+            'cita' => [
+                'ver_todas',
+                'ver_propias', 
+                'crear',
+                'editar_todas',
+                'editar_propias',
+                'cancelar',
+                'eliminar',
+                'reasignar'
+            ],
 
-        // Permisos para Historiales Médicos
-        $historialPermissions = [
-            'ver todos los historiales',
-            'ver historiales asignados',
-            'crear historiales',
-            'editar cualquier historial',
-            'editar historiales asignados',
-            'eliminar historiales'
-        ];
+            // Modelo: Paciente (Patient)
+            'paciente' => [
+                'ver_todos',
+                'ver_asignados',
+                'crear',
+                'editar',
+                'eliminar',
+                'exportar'
+            ],
 
-        // Permisos para Usuarios
-        $usuariosPermissions = [
-            'ver todos los usuarios',
-            'crear usuarios',
-            'editar usuarios',
-            'eliminar usuarios',
-            'asignar roles'
-        ];
+            // Modelo: Historial Médico (MedicalRecord)
+            'historialmedico' => [
+                'ver_todos',
+                'ver_asignados',
+                'crear',
+                'editar_todos',
+                'editar_asignados',
+                'eliminar'
+            ],
 
-        // Permisos para Configuración
-        $configPermissions = [
-            'gestionar configuración',
-            'ver registros de auditoría'
+            // Modelo: Usuario (User)
+            'usuario' => [
+                'ver_todos',
+                'crear',
+                'editar',
+                'eliminar',
+                'asignar_roles'
+            ],
+
+            // Modelo: Servicio (Service)
+            'servicio' => [
+                'ver_todos',
+                'crear',
+                'editar',
+                'eliminar'
+            ],
+
+            // Modelo: Tipo de Servicio (ServiceType)
+            'tiposervicio' => [
+                'ver_todos',
+                'crear',
+                'editar',
+                'eliminar'
+            ],
+
+            // Modelo: Doctor (Doctor)
+            'doctor' => [
+                'ver_todos',
+                'crear',
+                'editar',
+                'eliminar'
+            ],
+
+            // Modelo: Horario Doctor (DoctorSchedule)
+            'horariodoctor' => [
+                'ver_todos',
+                'crear',
+                'editar',
+                'eliminar'
+            ],
+
+            // Modelo: Servicio Doctor (DoctorService)
+            'serviciodoctor' => [
+                'ver_todos',
+                'crear',
+                'editar',
+                'eliminar'
+            ],
+
+            // Permisos generales del sistema
+            'configuracion' => [
+                'gestionar',
+                'ver_auditoria'
+            ]
         ];
 
         // Crear todos los permisos
-        $allPermissions = array_merge(
-            $citasPermissions,
-            $pacientesPermissions,
-            $historialPermissions,
-            $usuariosPermissions,
-            $configPermissions
-        );
-
-        foreach ($allPermissions as $permission) {
-            Permission::firstOrCreate(['name' => $permission, 'guard_name' => 'web']);
+        foreach ($modelPermissions as $modelo => $acciones) {
+            foreach ($acciones as $accion) {
+                Permission::firstOrCreate([
+                    'name' => "{$modelo}.{$accion}",
+                    'guard_name' => 'web'
+                ]);
+            }
         }
 
         // ==================== ROLES ====================
@@ -82,37 +122,68 @@ class RolesAndPermissionsSeeder extends Seeder
         // Rol Doctor
         $doctorRole = Role::firstOrCreate(['name' => 'doctor', 'guard_name' => 'web']);
         $doctorRole->givePermissionTo([
-            'ver pacientes asignados',
-            'crear pacientes',
-            'editar pacientes',
-            'ver propias citas',
-            'editar propias citas',
-            'cancelar citas',
-            'ver historiales asignados',
-            'crear historiales',
-            'editar historiales asignados'
+            // Pacientes
+            'paciente.ver_asignados',
+            'paciente.crear',
+            'paciente.editar',
+            
+            // Citas
+            'cita.ver_propias',
+            'cita.editar_propias',
+            'cita.cancelar',
+            
+            // Historiales Médicos
+            'historialmedico.ver_asignados',
+            'historialmedico.crear',
+            'historialmedico.editar_asignados',
+            
+            // Propio perfil
+            'usuario.editar' // Para editar su propio perfil
         ]);
 
-        // Rol Recepcionista (Staff)
+        // Rol Recepcionista
         $recepcionistaRole = Role::firstOrCreate(['name' => 'recepcionista', 'guard_name' => 'web']);
         $recepcionistaRole->givePermissionTo([
-            'ver todas las citas',
-            'crear citas',
-            'editar cualquier cita',
-            'cancelar citas',
-            'reasignar citas',
-            'ver todos los pacientes',
-            'crear pacientes',
-            'editar pacientes'
+            // Citas
+            'cita.ver_todas',
+            'cita.crear',
+            'cita.editar_todas',
+            'cita.cancelar',
+            'cita.reasignar',
+            
+            // Pacientes
+            'paciente.ver_todos',
+            'paciente.crear',
+            'paciente.editar',
+            
+            // Doctores (para asignar citas)
+            'doctor.ver_todos',
+            
+            // Servicios
+            'servicio.ver_todos',
+            'tiposervicio.ver_todos',
+            
+            // Propio perfil
+            'usuario.editar'
         ]);
 
         // Rol Paciente
         $pacienteRole = Role::firstOrCreate(['name' => 'paciente', 'guard_name' => 'web']);
         $pacienteRole->givePermissionTo([
-            'ver propias citas',
-            'crear citas',
-            'cancelar citas'
+            // Sus propias citas
+            'cita.ver_propias',
+            'cita.crear',
+            'cita.cancelar',
+            
+            // Su propio historial médico (si decides implementarlo)
+            // 'historialmedico.ver_propio',
+            
+            // Propio perfil
+            'usuario.editar'
         ]);
+
+       
     }
+
 }
 

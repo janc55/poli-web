@@ -13,8 +13,8 @@ class PatientPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('ver todos los pacientes') || 
-               $user->can('ver pacientes asignados');
+        return $user->can('paciente.ver_todos') || 
+               $user->can('paciente.ver_asignados');
     }
 
     /**
@@ -24,8 +24,8 @@ class PatientPolicy
     {
         // Doctores pueden ver pacientes asignados
         if ($user->hasRole('doctor')) {
-            return $user->hasPermissionTo('ver pacientes asignados') && 
-                $patient->doctor_id === $user->id;
+            return $user->hasPermissionTo('paciente.ver_asignados') && 
+                   $patient->doctor_id === $user->id;
         }
         
         // Pacientes solo pueden verse a sí mismos
@@ -33,7 +33,7 @@ class PatientPolicy
             return optional($user->patient)->id === $patient->id;
         }
         
-        return $user->can('ver todos los pacientes');
+        return $user->can('paciente.ver_todos');
     }
 
     /**
@@ -41,7 +41,7 @@ class PatientPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('crear pacientes');
+        return $user->can('paciente.crear');
     }
 
     /**
@@ -51,7 +51,7 @@ class PatientPolicy
     {
         // Doctores solo pueden editar pacientes asignados
         if ($user->hasRole('doctor')) {
-            return $user->can('editar pacientes') && 
+            return $user->can('paciente.editar') && 
                    $patient->doctor_id === $user->id;
         }
         
@@ -60,7 +60,7 @@ class PatientPolicy
             return $user->patient->id === $patient->id;
         }
         
-        return $user->can('editar pacientes');
+        return $user->can('paciente.editar');
     }
 
     /**
@@ -68,7 +68,7 @@ class PatientPolicy
      */
     public function delete(User $user, Patient $patient): bool
     {
-        return $user->can('eliminar pacientes');
+        return $user->can('paciente.eliminar');
     }
 
     /**
@@ -89,6 +89,6 @@ class PatientPolicy
 
     public function export(User $user, Patient $patient): bool
     {
-        return $user->can('exportar datos de pacientes');
+        return $user->can('paciente.exportar');
     }
 }

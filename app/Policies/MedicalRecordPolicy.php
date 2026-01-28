@@ -13,8 +13,8 @@ class MedicalRecordPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('ver todos los historiales') || 
-               $user->can('ver historiales asignados');
+        return $user->can('historialmedico.ver_todos') || 
+               $user->can('historialmedico.ver_asignados');
     }
 
     /**
@@ -29,7 +29,7 @@ class MedicalRecordPolicy
 
         // Doctor solo puede ver historiales que ha creado o son de sus pacientes
         if ($user->hasRole('doctor')) {
-            return $user->can('ver historiales asignados') && 
+            return $user->can('historialmedico.ver_asignados') && 
                    ($medicalRecord->doctor_id === $user->id || 
                     $medicalRecord->patient->doctor_id === $user->id);
         }
@@ -47,7 +47,7 @@ class MedicalRecordPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('crear historiales');
+        return $user->can('historialmedico.crear');
     }
 
     /**
@@ -57,12 +57,12 @@ class MedicalRecordPolicy
     {
         // Admin puede editar cualquier historial
         if ($user->hasRole('admin')) {
-            return $user->can('editar cualquier historial');
+            return $user->can('historialmedico.editar_todos');
         }
 
         // Doctor solo puede editar sus propios historiales
         if ($user->hasRole('doctor')) {
-            return $user->can('editar historiales asignados') && 
+            return $user->can('historialmedico.editar_asignados') && 
                    $medicalRecord->doctor_id === $user->id;
         }
 
@@ -76,7 +76,7 @@ class MedicalRecordPolicy
     {
         // Solo admin puede eliminar historiales
         return $user->hasRole('admin') && 
-               $user->can('eliminar historiales');
+               $user->can('historialmedico.eliminar');
     }
 
     /**

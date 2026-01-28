@@ -132,7 +132,7 @@ class AppointmentResource extends Resource
                         foreach ($schedules as $schedule) {
                             $start = Carbon::parse($schedule->start_time);
                             $end = Carbon::parse($schedule->end_time);
-                            $duration = $schedule->appointment_duration;
+                            $duration = (int) $schedule->appointment_duration;
 
                             $slots = CarbonPeriod::create($start, $duration . ' minutes', $end);
 

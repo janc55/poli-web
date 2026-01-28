@@ -13,8 +13,8 @@ class AppointmentPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('ver todas las citas') || 
-               $user->can('ver propias citas');
+        return $user->can('cita.ver_todas') || 
+               $user->can('cita.ver_propias');
     }
 
     /**
@@ -23,19 +23,19 @@ class AppointmentPolicy
     public function view(User $user, Appointment $appointment): bool
     {
         // Admin y recepcionistas pueden ver todas las citas
-        if ($user->can('ver todas las citas')) {
+        if ($user->can('cita.ver_todas')) {
             return true;
         }
 
         // Doctores solo pueden ver sus propias citas
         if ($user->hasRole('doctor')) {
-            return $user->can('ver propias citas') && 
+            return $user->can('cita.ver_propias') && 
                    $appointment->doctor_id === $user->id;
         }
 
         // Pacientes solo pueden ver sus propias citas
         if ($user->hasRole('paciente') && $user->patient) {
-            return $user->can('ver propias citas') &&
+            return $user->can('cita.ver_propias') &&
                 $appointment->patient_id === $user->patient->id;
         }
 
@@ -47,7 +47,7 @@ class AppointmentPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('crear citas');
+        return $user->can('cita.crear');
     }
 
     /**
@@ -56,19 +56,19 @@ class AppointmentPolicy
     public function update(User $user, Appointment $appointment): bool
     {
         // Admin y recepcionistas pueden editar cualquier cita
-        if ($user->can('editar cualquier cita')) {
+        if ($user->can('cita.editar_todas')) {
             return true;
         }
 
         // Doctores solo pueden editar sus propias citas
         if ($user->hasRole('doctor')) {
-            return $user->can('editar propias citas') && 
+            return $user->can('cita.editar_propias') && 
                    $appointment->doctor_id === $user->id;
         }
 
         // Pacientes solo pueden editar/cancelar sus propias citas
         if ($user->hasRole('paciente') && $user->patient) {
-            return $user->can('editar propias citas') &&
+            return $user->can('cita.editar_propias') &&
                 $appointment->patient_id === $user->patient->id;
         }
 
@@ -81,19 +81,19 @@ class AppointmentPolicy
     public function cancel(User $user, Appointment $appointment): bool
     {
         // Recepcionistas y admin pueden cancelar cualquier cita
-        if ($user->can('cancelar citas') && ($user->hasRole('admin') || $user->hasRole('recepcionista'))) {
+        if ($user->can('cita.cancelar') && ($user->hasRole('admin') || $user->hasRole('recepcionista'))) {
             return true;
         }
 
         // Doctores solo pueden cancelar sus propias citas
         if ($user->hasRole('doctor')) {
-            return $user->can('cancelar citas') && 
+            return $user->can('cita.cancelar') && 
                    $appointment->doctor_id === $user->id;
         }
 
         // Pacientes solo pueden cancelar sus propias citas
         if ($user->hasRole('paciente') && $user->patient) {
-            return $user->can('cancelar citas') &&
+            return $user->can('cita.cancelar') &&
                 $appointment->patient_id === $user->patient->id;
         }
 
@@ -106,7 +106,7 @@ class AppointmentPolicy
     public function delete(User $user, Appointment $appointment): bool
     {
         // Solo admin y recepcionistas pueden eliminar citas
-        return $user->can('eliminar citas') && 
+        return $user->can('cita.eliminar') && 
                ($user->hasRole('admin') || $user->hasRole('recepcionista'));
     }
 
@@ -116,7 +116,7 @@ class AppointmentPolicy
     public function reassign(User $user): bool
     {
         // Solo recepcionistas y admin pueden reasignar citas
-        return $user->can('reasignar citas');
+        return $user->can('cita.reasignar');
     }
 
     /**
