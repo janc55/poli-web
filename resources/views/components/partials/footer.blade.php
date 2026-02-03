@@ -62,7 +62,7 @@
                 <h4 class="font-semibold mb-4">Contacto</h4>
                 <div class="space-y-2 text-gray-400">
                     <p>📞 252-81110</p>
-                    <p> <a href="mailto:policonsultoriunior@gmail.com">✉️ policonsultoriunior@gmail.com</a></p>
+                    <p> <a href="mailto:policonsultoriounior@gmail.com">✉️ policonsultoriounior@gmail.com</a></p>
                     <p>📍 Calle Potosí entre Bolívar y Sucre</p>
                     <p>🕒 Lunes a Viernes: 8:00 a 19:00</p>
                 </div>
